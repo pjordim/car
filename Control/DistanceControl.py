@@ -12,15 +12,13 @@ class DistanceControl():
 		try:
 			while not closingEvent.isSet():
 				distance = 1000
-				time.sleep(1)
+				time.sleep(0.1)
 				distances = self.sensor.readline().split()[:2]
 				for d in distances:
 					#print ('Distance measured is ',d,'cm')
-					if d > 0:
-						distance = min(distance,d)
+					distance = max(min(distance,float(d)),0)
 					#distance = min(distance,sensor.measure_burst(10,0.1))
 					#distance = min(distance,sensor.measure())
-                                        print("pues algo fa",d)
 				if distance <= self.thresholdDistance:
 					print 'Found a close obstacle in', distance, 'cm'
 					self.control = self.car.setControl(self.controlIndex, False)
